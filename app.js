@@ -51,5 +51,22 @@ function addNote() {
     content,
   });
 
-  console.log(notes);
+  updateNotesCategory();
+}
+
+function updateNotesCategory() {
+  let select = document.getElementById("js-category-options");
+  let categoriesHTML = "";
+
+  notes.forEach((note) => {
+    category = note.category;
+
+    html = `
+    <option value="">${category}</option>
+    `;
+
+    categoriesHTML += html;
+  });
+
+  select.innerHTML = `<option value="" selected>All notes</option> + ${categoriesHTML}`;
 }
