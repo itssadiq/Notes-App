@@ -1,4 +1,4 @@
-const notes = [];
+const notes = JSON.parse(localStorage.getItem("notes")) || [];
 
 loadPage();
 
@@ -8,6 +8,7 @@ function loadPage() {
 
   showNotesInput(noteForm, overlay);
   closeNotesInput(noteForm, overlay);
+  renderNotes();
 
   document
     .querySelector(".js-save-button")
@@ -61,6 +62,7 @@ function addNote() {
 
   updateNotesCategory();
   renderNotes();
+  saveToStorage();
 
   titleElement.value = "";
   categoryElement.value = "";
@@ -110,4 +112,8 @@ function renderNotes() {
   });
 
   document.querySelector(".js-notes").innerHTML = notesHTML;
+}
+
+function saveToStorage() {
+  localStorage.setItem("notes", JSON.stringify(notes));
 }
