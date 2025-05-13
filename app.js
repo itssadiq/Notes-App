@@ -9,6 +9,7 @@ function loadPage() {
   showNotesInput(noteForm, overlay);
   closeNotesInput(noteForm, overlay);
   renderNotes();
+  updateNotesCategory();
 
   document
     .querySelector(".js-save-button")
@@ -71,16 +72,22 @@ function addNote() {
 
 function updateNotesCategory() {
   let select = document.getElementById("js-category-options");
+
   let categoriesHTML = "";
 
-  notes.forEach((note) => {
-    category = note.category;
+  let existingCategories = [];
 
-    html = `
+  notes.forEach((note) => {
+    if (!existingCategories.includes(note.category)) {
+      existingCategories.push(note.category);
+      category = note.category;
+
+      html = `
     <option value="">${category}</option>
     `;
 
-    categoriesHTML += html;
+      categoriesHTML += html;
+    }
   });
 
   select.innerHTML = `<option value="" selected>All notes</option> + ${categoriesHTML}`;
