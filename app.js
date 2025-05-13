@@ -1,10 +1,4 @@
-const notes = [
-  {
-    title: "Note 01",
-    category: "Test",
-    content: "some content here",
-  },
-];
+const notes = [];
 
 loadPage();
 
@@ -15,7 +9,16 @@ function loadPage() {
   showNotesInput(noteForm, overlay);
   closeNotesInput(noteForm, overlay);
 
-  document.querySelector(".js-save-button").addEventListener("click", addNote);
+  document
+    .querySelector(".js-save-button")
+    .addEventListener("click", operation);
+
+  function operation() {
+    addNote();
+
+    overlay.classList.remove("active");
+    noteForm.classList.remove("active");
+  }
 }
 
 function showNotesInput(noteForm, overlay) {
@@ -41,9 +44,14 @@ function closeNotesInput(noteForm, overlay) {
 }
 
 function addNote() {
-  const title = document.querySelector(".js-title-input").value;
-  const category = document.querySelector(".js-category-input").value;
-  const content = document.querySelector(".js-content-input").value;
+  const titleElement = document.querySelector(".js-title-input");
+  const title = titleElement.value;
+
+  const categoryElement = document.querySelector(".js-category-input");
+  const category = categoryElement.value;
+
+  const contentElement = document.querySelector(".js-content-input");
+  const content = contentElement.value;
 
   notes.push({
     title,
@@ -52,6 +60,11 @@ function addNote() {
   });
 
   updateNotesCategory();
+  renderNotes();
+
+  titleElement.value = "";
+  categoryElement.value = "";
+  contentElement.value = "";
 }
 
 function updateNotesCategory() {
@@ -69,4 +82,32 @@ function updateNotesCategory() {
   });
 
   select.innerHTML = `<option value="" selected>All notes</option> + ${categoriesHTML}`;
+}
+
+function renderNotes() {
+  let notesHTML = "";
+
+  notes.forEach((note) => {
+    let html = `
+       <div class="note-card">
+          <div class="note-title">
+            <h3>${note.title}</h3>
+            <button class="delete-button js-delete-button">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+          <div class="note-content">
+            ${note.content}
+          </div>
+          <div class="note-category">
+            <p class="category">${note.category}</p>
+            <p class="date-time">13.05.2025 17:09</p>
+          </div>
+        </div>
+    `;
+
+    notesHTML += html;
+  });
+
+  document.querySelector(".js-notes").innerHTML = notesHTML;
 }
