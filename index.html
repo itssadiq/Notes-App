@@ -4,9 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Notes App</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <div class="overlay" id="overlay"></div>
     <div class="main">
       <div class="header">
         <h1>Note Book</h1>
@@ -24,29 +29,35 @@
         <button class="js-add-btn">+ Add</button>
       </div>
 
-      <div class="note-form">
-        <div class="note-form-heading">
-          <h3>New Note</h3>
-          <button class="close-notes-input">X</button>
-        </div>
-        <div class="form-title">
-          <label for="title">Title</label>
-          <input type="text" id="title" />
-        </div>
-
-        <div class="form-category">
-          <label for="category">Category</label>
-          <input type="text" id="category" />
-        </div>
-
-        <div class="form-content">
-          <label for="content">Content</label>
-          <textarea name="" id="content" rows="10"></textarea>
-        </div>
-        <button class="save-button js-save-button">Save Note</button>
+      <div class="notes"></div>
+    </div>
+    <div class="note-form">
+      <div class="note-form-heading">
+        <h3>New Note</h3>
+        <button class="close-notes-input">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="form-title">
+        <label for="title">Title</label>
+        <input type="text" id="title" class="js-title-input" />
       </div>
 
-      <div class="notes"></div>
+      <div class="form-category">
+        <label for="category">Category</label>
+        <input type="text" id="category" class="js-category-input" />
+      </div>
+
+      <div class="form-content">
+        <label for="content">Content</label>
+        <textarea
+          name=""
+          id="content"
+          rows="10"
+          class="js-content-input"
+        ></textarea>
+      </div>
+      <button class="save-button js-save-button">Save Note</button>
     </div>
     <script src="app.js"></script>
   </body>

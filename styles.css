@@ -17,6 +17,7 @@ body {
 
 .main {
   width: 80%;
+  height: 100vh;
   margin: 0 auto;
   height: 100vh;
   display: flex;
@@ -74,14 +75,36 @@ body {
   cursor: pointer;
 }
 
+.overlay {
+  display: none;
+  backdrop-filter: blur(2px);
+  background-color: rgba(0, 0, 0, 0.3);
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
 .note-form {
-  display: flex;
+  display: none;
   width: 40%;
   margin: 0 auto;
   border: 1px solid black;
   flex-direction: column;
   gap: 15px;
   padding: 20px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  z-index: 2;
+}
+
+.active {
+  display: flex;
 }
 
 .form-title,
