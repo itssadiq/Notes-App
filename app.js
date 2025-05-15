@@ -12,6 +12,7 @@ function loadPage() {
   closeNotesInput(noteForm, overlay);
   renderNotes();
   renderCategory();
+  searchNotes();
 
   document
     .querySelector(".js-save-button")
@@ -167,6 +168,7 @@ function renderNotes() {
   document.querySelector(".js-notes").innerHTML = notesHTML;
   deleteNote();
   updateNotesCategory();
+  searchNotes();
 }
 
 function saveToStorage() {
@@ -187,5 +189,33 @@ function deleteNote() {
       saveToStorage();
       renderNotes();
     }
+  });
+}
+
+function searchNotes() {
+  const searchBar = document.querySelector(".js-search-bar");
+
+  const cards = document.querySelectorAll(".note-card");
+
+  searchBar.addEventListener("input", () => {
+    const value = searchBar.value.toLowerCase();
+
+    cards.forEach((card) => {
+      const title = card.querySelector("h3").innerHTML.toLowerCase();
+      const category = card.querySelector(".category").innerHTML.toLowerCase();
+      const content = card
+        .querySelector(".note-content")
+        .innerHTML.toLowerCase();
+
+      if (
+        title.includes(value) ||
+        category.includes(value) ||
+        content.includes(value)
+      ) {
+        card.style.display = "block";
+      } else {
+        card.style.display = "none";
+      }
+    });
   });
 }
