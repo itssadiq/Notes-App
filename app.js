@@ -12,7 +12,6 @@ function loadPage() {
   closeNotesInput(noteForm, overlay);
   renderNotes();
   renderCategory();
-  searchNotes();
 
   document
     .querySelector(".js-save-button")
