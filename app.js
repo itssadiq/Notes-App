@@ -1,3 +1,5 @@
+import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js";
+
 const notes = JSON.parse(localStorage.getItem("notes")) || [];
 
 loadPage();
@@ -55,10 +57,15 @@ function addNote() {
   const contentElement = document.querySelector(".js-content-input");
   const content = contentElement.value;
 
-  notes.push({
+  const currentDate = dayjs().format("DD/MM/YYYY");
+  const currentTime = dayjs().format("HH:mm");
+  const currentDateTime = `${currentDate} ${currentTime}`;
+
+  notes.unshift({
     title,
     category,
     content,
+    currentDateTime,
   });
 
   renderNotes();
@@ -79,9 +86,9 @@ function updateNotesCategory() {
   notes.forEach((note) => {
     if (!existingCategories.includes(note.category)) {
       existingCategories.push(note.category);
-      category = note.category;
+      const category = note.category;
 
-      html = `
+      let html = `
     <option value="${category}">${category}</option>
     `;
 
@@ -117,17 +124,17 @@ function renderCategory() {
           </div>
           <div class="note-category">
             <p class="category">${note.category}</p>
-            <p class="date-time">13.05.2025 17:09</p>
+            <p class="date-time">${note.currentDateTime}</p>
           </div>
         </div>
     `;
 
         notesHTML += html;
+        document.querySelector(".js-notes").innerHTML = notesHTML;
       } else if (value === "All notes") {
         renderNotes();
       }
     });
-    document.querySelector(".js-notes").innerHTML = notesHTML;
     deleteNote();
   }
 }
@@ -149,7 +156,7 @@ function renderNotes() {
           </div>
           <div class="note-category">
             <p class="category">${note.category}</p>
-            <p class="date-time">13.05.2025 17:09</p>
+            <p class="date-time">${note.currentDateTime}</p>
           </div>
         </div>
     `;
