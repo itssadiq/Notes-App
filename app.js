@@ -131,11 +131,11 @@ function renderCategory() {
 
         notesHTML += html;
         document.querySelector(".js-notes").innerHTML = notesHTML;
+        deleteNote();
       } else if (value === "All notes") {
         renderNotes();
       }
     });
-    deleteNote();
   }
 }
 

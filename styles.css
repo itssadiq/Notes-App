@@ -138,6 +138,7 @@ body {
 .close-notes-input {
   border: none;
   cursor: pointer;
+  background-color: transparent;
 }
 
 .save-button {
@@ -176,6 +177,7 @@ body {
 .delete-button {
   border: none;
   background: transparent;
+  cursor: pointer;
 }
 
 .note-category {
