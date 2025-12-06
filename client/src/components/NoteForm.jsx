@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import dayjs from "dayjs";
 
 const NoteForm = ({ show, setShow, loadNotes }) => {
   const [title, setTitle] = useState("");
@@ -35,10 +36,14 @@ const NoteForm = ({ show, setShow, loadNotes }) => {
     } else if (content === "") {
       alert("Content is required");
     } else {
+      const currentDate = dayjs().format("DD/MM/YYYY");
+      const currentTime = dayjs().format("HH:mm");
+      const currentDateTime = `${currentDate} ${currentTime}`;
       const data = {
         title,
         category,
         content,
+        currentDateTime,
       };
 
       const response = await fetch("http://localhost:3000/notes", {
