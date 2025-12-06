@@ -1,6 +1,9 @@
+import { useState } from "react";
 import Notes from "./Notes";
 
 const NotesBody = ({ setShow, show, notes, loadNotes }) => {
+  const [selectedCategory, setSelectedCategory] = useState("All notes");
+
   const showNotesInput = () => {
     setShow(true);
   };
@@ -13,6 +16,11 @@ const NotesBody = ({ setShow, show, notes, loadNotes }) => {
     }
   });
 
+  const filteredNotes =
+    selectedCategory === "All notes"
+      ? notes
+      : notes.filter((n) => n.category === selectedCategory);
+
   return (
     <>
       <div className={show ? "active overlay" : "overlay"} id="overlay"></div>
@@ -21,17 +29,21 @@ const NotesBody = ({ setShow, show, notes, loadNotes }) => {
           <h1>Note Book</h1>
           <p>Store your thoughts and ideas</p>
         </div>
-
         <div className="navbar">
           <input
             type="text"
             placeholder="Search notes"
             className="js-search-bar"
           />
-          <select name="" id="js-category-options">
-            <option value="" selected>
-              All notes
-            </option>
+          <select
+            name=""
+            id="js-category-options"
+            onChange={(e) => {
+              setSelectedCategory(e.target.value);
+            }}
+            value={selectedCategory}
+          >
+            <option value="All notes">All notes</option>
             {existingCategories.map((cat) => {
               return (
                 <option value={cat} key={cat}>
@@ -43,7 +55,7 @@ const NotesBody = ({ setShow, show, notes, loadNotes }) => {
           <button onClick={showNotesInput}>+Add</button>
         </div>
 
-        <Notes notes={notes} loadNotes={loadNotes} />
+        <Notes loadNotes={loadNotes} filteredNotes={filteredNotes} />
       </div>
     </>
   );
