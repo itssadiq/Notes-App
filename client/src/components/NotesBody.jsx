@@ -1,7 +1,14 @@
 import { useState } from "react";
 import Notes from "./Notes";
 
-const NotesBody = ({ setShow, show, notes, loadNotes }) => {
+const NotesBody = ({
+  setShow,
+  show,
+  notes,
+  loadNotes,
+  setEditNote,
+  setIsEditing,
+}) => {
   const [selectedCategory, setSelectedCategory] = useState("All notes");
 
   const showNotesInput = () => {
@@ -55,7 +62,14 @@ const NotesBody = ({ setShow, show, notes, loadNotes }) => {
           <button onClick={showNotesInput}>+Add</button>
         </div>
 
-        <Notes loadNotes={loadNotes} filteredNotes={filteredNotes} />
+        <Notes
+          loadNotes={loadNotes}
+          filteredNotes={filteredNotes}
+          setShow={setShow}
+          setEditNote={setEditNote}
+          notes={notes}
+          setIsEditing={setIsEditing}
+        />
       </div>
     </>
   );

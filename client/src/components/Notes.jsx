@@ -1,6 +1,13 @@
 import React from "react";
 
-const Notes = ({ filteredNotes, loadNotes }) => {
+const Notes = ({
+  filteredNotes,
+  loadNotes,
+  setShow,
+  setEditNote,
+  notes,
+  setIsEditing,
+}) => {
   const deleteNote = async (id) => {
     const response = await fetch("http://localhost:3000/notes", {
       method: "DELETE",
@@ -14,6 +21,14 @@ const Notes = ({ filteredNotes, loadNotes }) => {
     console.log("Server Resoponse ===>", result);
 
     loadNotes();
+  };
+
+  const editNote = (id) => {
+    const data = notes.find((n) => n.id === id);
+    setEditNote(data);
+    setIsEditing(true);
+
+    setShow(true);
   };
 
   return (
@@ -32,7 +47,12 @@ const Notes = ({ filteredNotes, loadNotes }) => {
               >
                 <i className="fas fa-trash"></i>
               </button>
-              <button className="delete-button">
+              <button
+                className="delete-button"
+                onClick={() => {
+                  editNote(note.id);
+                }}
+              >
                 <i class="fa-solid fa-pen-to-square"></i>
               </button>
             </div>

@@ -1,13 +1,21 @@
 import React, { useState } from "react";
 import dayjs from "dayjs";
 
-const NoteForm = ({ show, setShow, loadNotes }) => {
+const NoteForm = ({
+  show,
+  setShow,
+  loadNotes,
+  editNote,
+  isEditing,
+  setIsEditing,
+}) => {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [content, setContent] = useState("");
 
   const closeNotesInput = () => {
     setShow(false);
+    setIsEditing(false);
   };
 
   const handleTitleInput = (e) => {
@@ -82,7 +90,7 @@ const NoteForm = ({ show, setShow, loadNotes }) => {
           id="title"
           className="js-title-input"
           onChange={handleTitleInput}
-          value={title}
+          value={isEditing ? editNote.title : title}
         />
       </div>
       <div className="form-category">
@@ -92,7 +100,7 @@ const NoteForm = ({ show, setShow, loadNotes }) => {
           id="category"
           className="js-category-input"
           onChange={handleCategoryInput}
-          value={category}
+          value={isEditing ? editNote.category : category}
         />
       </div>
       <div className="form-content">
@@ -103,11 +111,11 @@ const NoteForm = ({ show, setShow, loadNotes }) => {
           rows="10"
           className="js-content-input"
           onChange={handleContentInput}
-          value={content}
+          value={isEditing ? editNote.content : content}
         ></textarea>
       </div>
       <button className="save-button js-save-button" onClick={saveNote}>
-        Save Note
+        {isEditing ? "Update" : "Save Note"}
       </button>
     </div>
   );

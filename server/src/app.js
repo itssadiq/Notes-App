@@ -43,6 +43,12 @@ app.delete("/notes", (req, res) => {
   });
 });
 
+app.patch("/notes", (req, res) => {
+  const body = req.body.id;
+
+  console.log(body);
+});
+
 app.listen(3000, () => {
   console.log("Server started at port 3000");
 });
