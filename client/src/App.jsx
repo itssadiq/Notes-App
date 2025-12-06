@@ -23,7 +23,7 @@ function App() {
     <>
       <NotesBody setShow={setShow} show={show} notes={notes} />
 
-      <NoteForm show={show} setShow={setShow} />
+      <NoteForm show={show} setShow={setShow} loadNotes={loadNotes} />
     </>
   );
 }

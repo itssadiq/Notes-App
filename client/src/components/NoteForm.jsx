@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 
-const NoteForm = ({ show, setShow }) => {
+const NoteForm = ({ show, setShow, loadNotes }) => {
+  const [title, setTitle] = useState("");
+  const [category, setCategory] = useState("");
+  const [content, setContent] = useState("");
+
   const closeNotesInput = () => {
     setShow(false);
   };
@@ -8,7 +12,46 @@ const NoteForm = ({ show, setShow }) => {
   const handleTitleInput = (e) => {
     const value = e.target.value;
 
-    console.log(value);
+    setTitle(value);
+  };
+
+  const handleCategoryInput = (e) => {
+    const value = e.target.value;
+
+    setCategory(value);
+  };
+
+  const handleContentInput = (e) => {
+    const value = e.target.value;
+
+    setContent(value);
+  };
+
+  const saveNote = async () => {
+    const data = {
+      title,
+      category,
+      content,
+    };
+
+    const response = await fetch("http://localhost:3000/notes", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    const result = await response.json();
+    console.log("Server Response", result);
+
+    setTitle("");
+    setCategory("");
+    setContent("");
+
+    setShow(false);
+
+    loadNotes();
   };
   return (
     <div className={show ? "note-form active" : "note-form"}>
@@ -25,11 +68,18 @@ const NoteForm = ({ show, setShow }) => {
           id="title"
           className="js-title-input"
           onChange={handleTitleInput}
+          value={title}
         />
       </div>
       <div className="form-category">
         <label for="category">Category</label>
-        <input type="text" id="category" className="js-category-input" />
+        <input
+          type="text"
+          id="category"
+          className="js-category-input"
+          onChange={handleCategoryInput}
+          value={category}
+        />
       </div>
       <div className="form-content">
         <label for="content">Content</label>
@@ -38,9 +88,13 @@ const NoteForm = ({ show, setShow }) => {
           id="content"
           rows="10"
           className="js-content-input"
+          onChange={handleContentInput}
+          value={content}
         ></textarea>
       </div>
-      <button className="save-button js-save-button">Save Note</button>
+      <button className="save-button js-save-button" onClick={saveNote}>
+        Save Note
+      </button>
     </div>
   );
 };

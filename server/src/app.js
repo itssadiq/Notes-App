@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const notes = require("./data/notes.json");
+const fs = require("fs");
+const path = require("path");
 
 const app = express();
 
@@ -15,8 +17,12 @@ app.get("/notes", (req, res) => {
 app.post("/notes", (req, res) => {
   const data = req.body;
 
-  console.log(data);
-  res.send("data recieved");
+  notes.push({ ...data, id: notes.length + 1 });
+  const filePath = path.join(__dirname, "data", "notes.json");
+
+  fs.writeFile(filePath, JSON.stringify(notes), (err, data) => {
+    return res.send({ message: "Note Added" });
+  });
 });
 
 app.listen(3000, () => {
