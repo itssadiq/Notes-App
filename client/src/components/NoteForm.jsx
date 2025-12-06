@@ -4,6 +4,12 @@ const NoteForm = ({ show, setShow }) => {
   const closeNotesInput = () => {
     setShow(false);
   };
+
+  const handleTitleInput = (e) => {
+    const value = e.target.value;
+
+    console.log(value);
+  };
   return (
     <div className={show ? "note-form active" : "note-form"}>
       <div className="note-form-heading">
@@ -14,7 +20,12 @@ const NoteForm = ({ show, setShow }) => {
       </div>
       <div className="form-title">
         <label for="title">Title</label>
-        <input type="text" id="title" className="js-title-input" />
+        <input
+          type="text"
+          id="title"
+          className="js-title-input"
+          onChange={handleTitleInput}
+        />
       </div>
       <div className="form-category">
         <label for="category">Category</label>
