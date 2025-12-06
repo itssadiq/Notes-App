@@ -28,31 +28,40 @@ const NoteForm = ({ show, setShow, loadNotes }) => {
   };
 
   const saveNote = async () => {
-    const data = {
-      title,
-      category,
-      content,
-    };
+    if (title === "") {
+      alert("Title is required");
+    } else if (category === "") {
+      alert("Category is required");
+    } else if (content === "") {
+      alert("Content is required");
+    } else {
+      const data = {
+        title,
+        category,
+        content,
+      };
 
-    const response = await fetch("http://localhost:3000/notes", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+      const response = await fetch("http://localhost:3000/notes", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
 
-    const result = await response.json();
-    console.log("Server Response", result);
+      const result = await response.json();
+      console.log("Server Response", result);
 
-    setTitle("");
-    setCategory("");
-    setContent("");
+      setTitle("");
+      setCategory("");
+      setContent("");
 
-    setShow(false);
+      setShow(false);
 
-    loadNotes();
+      loadNotes();
+    }
   };
+
   return (
     <div className={show ? "note-form active" : "note-form"}>
       <div className="note-form-heading">
