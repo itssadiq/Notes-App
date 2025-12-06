@@ -5,6 +5,14 @@ const NotesBody = ({ setShow, show, notes, loadNotes }) => {
     setShow(true);
   };
 
+  let existingCategories = [];
+
+  notes.forEach((note) => {
+    if (!existingCategories.includes(note.category)) {
+      existingCategories.push(note.category);
+    }
+  });
+
   return (
     <>
       <div className={show ? "active overlay" : "overlay"} id="overlay"></div>
@@ -24,6 +32,13 @@ const NotesBody = ({ setShow, show, notes, loadNotes }) => {
             <option value="" selected>
               All notes
             </option>
+            {existingCategories.map((cat) => {
+              return (
+                <option value={cat} key={cat}>
+                  {cat}
+                </option>
+              );
+            })}
           </select>
           <button onClick={showNotesInput}>+Add</button>
         </div>
