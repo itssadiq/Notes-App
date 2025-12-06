@@ -1,6 +1,21 @@
 import React from "react";
 
-const Notes = ({ notes }) => {
+const Notes = ({ notes, loadNotes }) => {
+  const deleteNote = async (id) => {
+    const response = await fetch("http://localhost:3000/notes", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id }),
+    });
+
+    const result = await response.json();
+    console.log("Server Resoponse ===>", result);
+
+    loadNotes();
+  };
+
   return (
     <div className="notes js-notes">
       {notes.map((note) => {
@@ -12,7 +27,12 @@ const Notes = ({ notes }) => {
                 className="delete-button js-delete-button"
                 data-index="${index}"
               >
-                <i className="fas fa-trash"></i>
+                <i
+                  className="fas fa-trash"
+                  onClick={() => {
+                    deleteNote(note.id);
+                  }}
+                ></i>
               </button>
             </div>
             <div className="note-content">{note.content}</div>

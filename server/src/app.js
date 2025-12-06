@@ -3,6 +3,7 @@ const cors = require("cors");
 const notes = require("./data/notes.json");
 const fs = require("fs");
 const path = require("path");
+const { randomUUID } = require("crypto");
 
 const app = express();
 
@@ -17,11 +18,28 @@ app.get("/notes", (req, res) => {
 app.post("/notes", (req, res) => {
   const data = req.body;
 
-  notes.push({ ...data, id: notes.length + 1 });
+  notes.push({ ...data, id: randomUUID() });
   const filePath = path.join(__dirname, "data", "notes.json");
 
   fs.writeFile(filePath, JSON.stringify(notes), (err, data) => {
     return res.send({ message: "Note Added" });
+  });
+});
+
+app.delete("/notes", (req, res) => {
+  const id = req.body.id;
+
+  const index = notes.findIndex((note) => note.id === id);
+
+  notes.splice(index, 1);
+
+  const filePath = path.join(__dirname, "data", "notes.json");
+
+  fs.writeFile(filePath, JSON.stringify(notes), (err, data) => {
+    return res.send({
+      message: "Note Deleted",
+      id,
+    });
   });
 });
 

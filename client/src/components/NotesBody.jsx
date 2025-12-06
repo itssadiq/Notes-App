@@ -1,6 +1,6 @@
 import Notes from "./Notes";
 
-const NotesBody = ({ setShow, show, notes }) => {
+const NotesBody = ({ setShow, show, notes, loadNotes }) => {
   const showNotesInput = () => {
     setShow(true);
   };
@@ -28,7 +28,7 @@ const NotesBody = ({ setShow, show, notes }) => {
           <button onClick={showNotesInput}>+Add</button>
         </div>
 
-        <Notes notes={notes} />
+        <Notes notes={notes} loadNotes={loadNotes} />
       </div>
     </>
   );

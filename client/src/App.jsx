@@ -21,7 +21,12 @@ function App() {
 
   return (
     <>
-      <NotesBody setShow={setShow} show={show} notes={notes} />
+      <NotesBody
+        setShow={setShow}
+        show={show}
+        notes={notes}
+        loadNotes={loadNotes}
+      />
 
       <NoteForm show={show} setShow={setShow} loadNotes={loadNotes} />
     </>
