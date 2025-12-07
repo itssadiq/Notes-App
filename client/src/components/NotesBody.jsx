@@ -24,10 +24,18 @@ const NotesBody = ({
     }
   });
 
-  const filteredNotes =
+  const categoryFiltered =
     selectedCategory === "All notes"
       ? notes
       : notes.filter((n) => n.category === selectedCategory);
+
+  const filteredNotes = categoryFiltered.filter((n) => {
+    const q = searchText.trim().toLowerCase();
+    if (!q) return true; // no search → keep all in the selected category
+    const title = (n.title || "").toLowerCase();
+    const content = (n.content || "").toLowerCase();
+    return title.includes(q) || content.includes(q);
+  });
 
   const handleSearchBar = (e) => {
     const value = e.target.value;
