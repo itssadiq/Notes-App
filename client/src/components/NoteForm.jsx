@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import dayjs from "dayjs";
 
 const NoteForm = ({
@@ -12,6 +12,18 @@ const NoteForm = ({
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [content, setContent] = useState("");
+
+  useEffect(() => {
+    if (isEditing && editNote) {
+      setTitle(editNote.title || "");
+      setCategory(editNote.category || "");
+      setContent(editNote.content || "");
+    } else if (!isEditing) {
+      setTitle("");
+      setCategory("");
+      setContent("");
+    }
+  }, [isEditing, editNote]);
 
   const closeNotesInput = () => {
     setShow(false);
@@ -37,42 +49,71 @@ const NoteForm = ({
   };
 
   const saveNote = async () => {
-    if (title === "") {
-      alert("Title is required");
-    } else if (category === "") {
-      alert("Category is required");
-    } else if (content === "") {
-      alert("Content is required");
+    let data;
+    const currentDate = dayjs().format("DD/MM/YYYY");
+    const currentTime = dayjs().format("HH:mm");
+    const currentDateTime = `${currentDate} ${currentTime}`;
+    if (!isEditing) {
+      if (title === "") {
+        alert("Title is required");
+      } else if (category === "") {
+        alert("Category is required");
+      } else if (content === "") {
+        alert("Content is required");
+      } else {
+        data = {
+          title,
+          category,
+          content,
+          currentDateTime,
+        };
+
+        sendDataToDB(data);
+      }
     } else {
-      const currentDate = dayjs().format("DD/MM/YYYY");
-      const currentTime = dayjs().format("HH:mm");
-      const currentDateTime = `${currentDate} ${currentTime}`;
-      const data = {
-        title,
-        category,
-        content,
-        currentDateTime,
-      };
+      if (editNote.title === "") {
+        alert("Title is required");
+      } else if (editNote.category === "") {
+        alert("Category is required");
+      } else if (editNote.content === "") {
+        alert("Content is required");
+      } else {
+        data = {
+          id: editNote.id,
+          title,
+          category,
+          content,
+          currentDateTime,
+        };
 
-      const response = await fetch("http://localhost:3000/notes", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+        console.log(data);
 
-      const result = await response.json();
-      console.log("Server Response", result);
-
-      setTitle("");
-      setCategory("");
-      setContent("");
-
-      setShow(false);
-
-      loadNotes();
+        sendDataToDB(data);
+      }
     }
+  };
+
+  const sendDataToDB = async (data) => {
+    const response = await fetch("http://localhost:3000/notes", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    const result = await response.json();
+    console.log("Server Response", result);
+
+    setTitle("");
+    setCategory("");
+    setContent("");
+
+    setIsEditing(false);
+
+    setShow(false);
+
+    loadNotes();
   };
 
   return (
@@ -90,7 +131,7 @@ const NoteForm = ({
           id="title"
           className="js-title-input"
           onChange={handleTitleInput}
-          value={isEditing ? editNote.title : title}
+          value={title}
         />
       </div>
       <div className="form-category">
@@ -100,7 +141,7 @@ const NoteForm = ({
           id="category"
           className="js-category-input"
           onChange={handleCategoryInput}
-          value={isEditing ? editNote.category : category}
+          value={category}
         />
       </div>
       <div className="form-content">
@@ -111,7 +152,7 @@ const NoteForm = ({
           rows="10"
           className="js-content-input"
           onChange={handleContentInput}
-          value={isEditing ? editNote.content : content}
+          value={content}
         ></textarea>
       </div>
       <button className="save-button js-save-button" onClick={saveNote}>

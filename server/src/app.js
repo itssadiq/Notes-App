@@ -18,12 +18,35 @@ app.get("/notes", (req, res) => {
 app.post("/notes", (req, res) => {
   const data = req.body;
 
-  notes.push({ ...data, id: randomUUID() });
-  const filePath = path.join(__dirname, "data", "notes.json");
+  if (data.id) {
+    const filteredNote = notes.find((note) => note.id === data.id);
+    const index = notes.findIndex((n) => n.id === data.id);
+    filteredNote.title = data.title;
+    filteredNote.category = data.category;
+    filteredNote.content = data.content;
+    filteredNote.currentDateTime = data.currentDateTime;
 
-  fs.writeFile(filePath, JSON.stringify(notes), (err, data) => {
-    return res.send({ message: "Note Added" });
-  });
+    notes[index] = filteredNote;
+    const filePath = path.join(__dirname, "data", "notes.json");
+
+    fs.writeFile(filePath, JSON.stringify(notes), (err, data) => {
+      return res.send({ message: "Note Added" });
+    });
+
+    res.send({
+      message: "Editing Note",
+    });
+  } else {
+    notes.push({ ...data, id: randomUUID() });
+    const filePath = path.join(__dirname, "data", "notes.json");
+
+    fs.writeFile(filePath, JSON.stringify(notes), (err, data) => {
+      return res.send({ message: "Note Added" });
+    });
+    res.send({
+      message: "Adding Note",
+    });
+  }
 });
 
 app.delete("/notes", (req, res) => {
@@ -41,12 +64,6 @@ app.delete("/notes", (req, res) => {
       id,
     });
   });
-});
-
-app.patch("/notes", (req, res) => {
-  const body = req.body.id;
-
-  console.log(body);
 });
 
 app.listen(3000, () => {
