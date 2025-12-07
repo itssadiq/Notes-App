@@ -53,7 +53,7 @@ const Notes = ({
                   editNote(note.id);
                 }}
               >
-                <i class="fa-solid fa-pen-to-square"></i>
+                <i className="fa-solid fa-pen-to-square"></i>
               </button>
             </div>
             <div className="note-content">{note.content}</div>

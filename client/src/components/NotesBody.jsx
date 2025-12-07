@@ -10,6 +10,7 @@ const NotesBody = ({
   setIsEditing,
 }) => {
   const [selectedCategory, setSelectedCategory] = useState("All notes");
+  const [searchText, setSearchText] = useState("");
 
   const showNotesInput = () => {
     setShow(true);
@@ -28,6 +29,12 @@ const NotesBody = ({
       ? notes
       : notes.filter((n) => n.category === selectedCategory);
 
+  const handleSearchBar = (e) => {
+    const value = e.target.value;
+
+    setSearchText(value);
+  };
+
   return (
     <>
       <div className={show ? "active overlay" : "overlay"} id="overlay"></div>
@@ -41,6 +48,8 @@ const NotesBody = ({
             type="text"
             placeholder="Search notes"
             className="js-search-bar"
+            value={searchText}
+            onChange={handleSearchBar}
           />
           <select
             name=""

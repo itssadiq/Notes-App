@@ -125,7 +125,7 @@ const NoteForm = ({
         </button>
       </div>
       <div className="form-title">
-        <label for="title">Title</label>
+        <label htmlFor="title">Title</label>
         <input
           type="text"
           id="title"
@@ -135,7 +135,7 @@ const NoteForm = ({
         />
       </div>
       <div className="form-category">
-        <label for="category">Category</label>
+        <label htmlFor="category">Category</label>
         <input
           type="text"
           id="category"
@@ -145,7 +145,7 @@ const NoteForm = ({
         />
       </div>
       <div className="form-content">
-        <label for="content">Content</label>
+        <label htmlFor="content">Content</label>
         <textarea
           name=""
           id="content"
