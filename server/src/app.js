@@ -125,8 +125,32 @@ app.get("/get-notes", async (req, res) => {
       notes,
     });
   } catch (error) {
-    res.send({
+    res.status(500).send({
       message: "Error Fetching Notes",
+      error,
+    });
+  }
+});
+
+app.delete("/delete-note/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const deletedNote = await Notes.findByIdAndDelete(id);
+
+    if (!deletedNote) {
+      return res.status(404).send({
+        message: "Note not found",
+      });
+    }
+
+    res.send({
+      message: "Note deleted successfully",
+      deletedNote,
+    });
+  } catch (error) {
+    res.status(500).send({
+      message: "Error Deleting Note",
       error,
     });
   }

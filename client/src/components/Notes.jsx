@@ -9,12 +9,8 @@ const Notes = ({
   setIsEditing,
 }) => {
   const deleteNote = async (id) => {
-    const response = await fetch("http://localhost:3000/notes", {
+    const response = await fetch(`http://localhost:3000/delete-note/${id}`, {
       method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ id }),
     });
 
     const result = await response.json();
@@ -42,7 +38,7 @@ const Notes = ({
                 className="delete-button js-delete-button"
                 data-index="${index}"
                 onClick={() => {
-                  deleteNote(note.id);
+                  deleteNote(note._id);
                 }}
               >
                 <i className="fas fa-trash"></i>
