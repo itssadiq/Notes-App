@@ -79,14 +79,12 @@ const NoteForm = ({
         alert("Content is required");
       } else {
         data = {
-          id: editNote.id,
+          id: editNote._id,
           title,
           category,
           content,
           currentDateTime,
         };
-
-        console.log(data);
 
         sendDataToDB(data);
       }
@@ -94,26 +92,25 @@ const NoteForm = ({
   };
 
   const sendDataToDB = async (data) => {
-    const response = await fetch("http://localhost:3000/notes", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-
-    const result = await response.json();
-    console.log("Server Response", result);
-
-    setTitle("");
-    setCategory("");
-    setContent("");
-
-    setIsEditing(false);
-
-    setShow(false);
-
-    loadNotes();
+    if (data.id) {
+      console.log("ID mil gayi");
+    } else {
+      const response = await fetch("http://localhost:3000/create-note", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      const result = await response.json();
+      console.log("Server Response", result);
+      setTitle("");
+      setCategory("");
+      setContent("");
+      setIsEditing(false);
+      setShow(false);
+      loadNotes();
+    }
   };
 
   return (

@@ -10,11 +10,11 @@ function App() {
   const [isEditing, setIsEditing] = useState(false);
 
   const loadNotes = async () => {
-    const response = await fetch("http://localhost:3000/notes");
+    const response = await fetch("http://localhost:3000/get-notes");
 
     const data = await response.json();
 
-    setNotes(data);
+    setNotes(data.notes);
   };
 
   useEffect(() => {

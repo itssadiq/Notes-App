@@ -24,7 +24,7 @@ const Notes = ({
   };
 
   const editNote = (id) => {
-    const data = notes.find((n) => n.id === id);
+    const data = notes.find((n) => n._id === id);
     setEditNote(data);
     setIsEditing(true);
 
@@ -35,7 +35,7 @@ const Notes = ({
     <div className="notes js-notes">
       {filteredNotes.map((note) => {
         return (
-          <div className="note-card" key={note.id}>
+          <div className="note-card" key={note._id}>
             <div className="note-title">
               <h3>{note.title}</h3>
               <button
@@ -50,7 +50,7 @@ const Notes = ({
               <button
                 className="delete-button"
                 onClick={() => {
-                  editNote(note.id);
+                  editNote(note._id);
                 }}
               >
                 <i className="fa-solid fa-pen-to-square"></i>
