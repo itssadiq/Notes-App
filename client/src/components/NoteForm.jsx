@@ -93,7 +93,30 @@ const NoteForm = ({
 
   const sendDataToDB = async (data) => {
     if (data.id) {
-      console.log("ID mil gayi");
+      const { title, category, content, currentDateTime, id } = data;
+
+      const updatedData = {
+        title,
+        category,
+        content,
+        currentDateTime,
+      };
+
+      const response = await fetch(`http://localhost:3000/edit-note/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedData),
+      });
+      const result = await response.json();
+      console.log(result);
+      setTitle("");
+      setCategory("");
+      setContent("");
+      setIsEditing(false);
+      setShow(false);
+      loadNotes();
     } else {
       const response = await fetch("http://localhost:3000/create-note", {
         method: "POST",

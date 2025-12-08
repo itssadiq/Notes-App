@@ -79,10 +79,39 @@ app.post("/create-note", async (req, res) => {
 
     res.send({
       message: "Note Added Succesfully",
+      note,
     });
   } catch (error) {
     res.send({
       message: "Error Saving Data",
+      error,
+    });
+  }
+});
+
+app.patch("/edit-note/:id", async (req, res) => {
+  const { id } = req.params;
+  const data = req.body;
+
+  try {
+    const updatedNote = await Notes.findByIdAndUpdate(
+      id,
+      { $set: data },
+      { new: true }
+    );
+
+    if (!updatedNote) {
+      return res.status(404).send({ message: "Note not found" });
+    }
+
+    res.send({
+      message: "Note updated successfully",
+      updatedNote,
+    });
+  } catch (error) {
+    res.status(500).send({
+      message: "Error updating Data",
+      error,
     });
   }
 });
